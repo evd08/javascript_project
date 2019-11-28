@@ -247,7 +247,7 @@ class Dictionary {
 
   }
 
-  showWord() {
+  returnWord() {
     console.log(this);
     let randomIdx = Math.floor(Math.random() * this.words.length);
     return this.words[randomIdx];
