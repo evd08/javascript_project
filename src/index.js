@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   const ctx = canvas.getContext("2d");
   const canvasWidth = window.innerWidth;
   const canvasHeight = window.innerHeight;
-  const startScreen = new startScreen(ctx, canvasWidth, canvasHeight);
+  // const startScreen = new startScreen(ctx, canvasWidth, canvasHeight);
   const game = new Game(ctx, currentWord, wordInput, scoreShow, canvasWidth, canvasHeight);
   // console.log(game);
 
