@@ -2,15 +2,20 @@
 const Dictionary = require("./dictionary.js");
 
 class Game {
-  constructor(ctx, currentWord, wordInput, scoreShow){
+  constructor(ctx, currentWord, wordInput, scoreShow, canvasWidth, canvasHeight){
     this.ctx = ctx;
     this.currentWord = currentWord;
     this.wordInput = wordInput;
     this.scoreShow = scoreShow;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
 
+    this.index = 0;
+    this.newWord = "";
     this.wordsArr = [];
     this.score = 0;
-    this.yAxis = Math.floor(Math.random() * 700); //should be 0 initially
+    this.oldY = 0;
+    this.yAxis = 0 
     this.xAxis = Math.floor(Math.random() * 1000);
 
     this.dictionary = new Dictionary();
@@ -19,47 +24,95 @@ class Game {
     this.match = this.match.bind(this);
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+
+  addWord() {
+    this.newWord = this.dictionary.returnWord();
+    this.wordsArr.push(this.newWord);
+    console.log(this.wordsArr);
+    this.randomPos();
+    this.moveWord(this.newWord, this.xAxis, this.yAxis);
+  }
+
+  randomPos(){
+    this.xAxis = Math.floor(Math.random() * 1000);
+    this.yAxis = 0;
+  }
+
+
+  moveWord(word, x, y) {
+    setInterval(() => {
+      // this.ctx.clearRect(0, 0, 1000, 700)
+      if (this.match(word)) {
+        clearInterval(this) //this will be where to check if the word matches the user's input
+        y = -2;
+      } else if ((this.wordsArr.includes(word)) && (y < 400)) {
+        this.oldY = y;
+        y++;
+        // console.log(y)
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+        this.ctx.fillStyle = "black";
+        this.ctx.font = "bold 30px Arial";
+        this.ctx.fillText(word, x, y);
+      } else {
+        clearInterval(this)
+      }
+      
+    }, 50)
+
+  }
+
+
   start() {
-    this.currentWord.innerHTML = this.dictionary.returnWord();
-    // this.moveWord();
+    setInterval(() => {
+      this.addWord();
+      // requestAnimationFrame(this.start());
+    }, 5000)
+
     this.wordInput.addEventListener('input', this.match);
     this.scoreShow.innerHTML = 0;
   }
 
-  
 
-  match() {
-    if (this.wordInput.value === this.currentWord.innerHTML) {
-      this.currentWord.innerHTML = this.dictionary.returnWord();
+
+  match(word) {
+
+    if (this.wordInput.value === word && this.wordsArr.includes(word)) {
+
+      // for (let i=0; i < this.wordsArr.length; i++) {
+      //   if (word === this.wordsArr[i]) {
+      //     this.wordsArr.splice(i, 1);
+      //     break;
+      //   }
+      // }
+
+      this.index = this.wordsArr.indexOf(word);
+      this.wordsArr.splice(this.index, 1);
+      console.log(this.wordsArr);
+
       this.wordInput.value = '';
       this.score++;
       this.scoreShow.innerHTML = this.score;
 
       // this.ctx.font = '50px serif';
-      this.ctx.fillText(this.dictionary.returnWord(), 100, 0);
+      return true
+    } else {
+      return false
     }
   }
 
-  // addWord() {
-  //   this.wordsArr.push(this.dictionary.returnWord());
-  //   for (let i = 0; i < this.wordsArr.length; i++) {
-  //     this.showWord(this.wordsArr[i]);
-  //   }
-  // }
-
-  // showWord(word) {
-  //   for(let i=0; i<this.wordsArr.length; i++){
-
-  //   }
-  // }
 
 
-  // moveWord() {
-  //   setInterval(() => {
-  //     this.yAxis++;
-  //   }, 10)
 
-  // }
+
+
+
+
+
+
+
+
+
 
 }
 
