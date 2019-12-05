@@ -2,7 +2,7 @@
 const Dictionary = require("./dictionary.js");
 
 class Game {
-  constructor(ctx, currentWord, wordInput, scoreShow, canvasWidth, canvasHeight){
+  constructor(ctx, currentWord, wordInput, scoreShow, canvasWidth, canvasHeight) {
     this.ctx = ctx;
     this.currentWord = currentWord;
     this.wordInput = wordInput;
@@ -15,7 +15,7 @@ class Game {
     this.wordsArr = [];
     this.score = 0;
     this.oldY = 0;
-    this.yAxis = 0 
+    this.yAxis = 0
     this.xAxis = Math.floor(Math.random() * 1000);
 
     this.dictionary = new Dictionary();
@@ -34,7 +34,7 @@ class Game {
     this.moveWord(this.newWord, this.xAxis, this.yAxis);
   }
 
-  randomPos(){
+  randomPos() {
     console.log(this.canvasWidth);
     this.xAxis = Math.floor(Math.random() * this.canvasWidth);
     this.yAxis = 20;
@@ -42,7 +42,6 @@ class Game {
 
 
   moveWord(word, x, y) {
-
     setInterval(() => {
       if (this.match(word)) {
         clearInterval(this) //this will be where to check if the word matches the user's input
@@ -58,14 +57,39 @@ class Game {
         clearInterval(this)
       }
     }, 50)
+  }
 
+
+  check() {
+
+  }
+
+  update() {
+
+  }
+
+  draw() {
+
+  }
+
+  move() {
+    this.draw();
+    this.update();
+    this.check();
+  }
+
+  timer() {
+    setInterval(() => { this.move() }, 50);
   }
 
 
   start() {
 
+    this.timer();
+
     setInterval(() => {
       this.addWord();
+      // requestAnimationFrame(this.start());
     }, 5000)
 
     this.wordInput.addEventListener('input', this.match);
