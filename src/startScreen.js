@@ -28,7 +28,7 @@ class StartScreen {
   }
 
   clickToStart() {
-    this.ctx.fillText("Press enter or space to start", this.canvasWidth/2 - 153 , 350);
+    this.ctx.fillText("Press enter to start", this.canvasWidth/2 - 110 , 350);
     this.page.addEventListener('keydown', this.game.start);
   }
 

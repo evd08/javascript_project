@@ -26,7 +26,7 @@ class Game {
     this.dictionary = new Dictionary();
 
     this.start = this.start.bind(this);
-    this.match = this.match.bind(this);
+    // this.match = this.match.bind(this);
   }
 
   addWord() {
@@ -42,7 +42,6 @@ class Game {
     for (let i = 0; i < this.wordsPosArr.length; i++) {
       let el = this.wordsPosArr[i];
       if (el.yAxis < 640){ 
-
         this.ctx.beginPath();
         this.ctx.rect(el.xAxis, el.yAxis - 15, el.word.length*11, 20, 'grey');
         this.ctx.fillStyle = "#47a4cf";
@@ -67,11 +66,11 @@ class Game {
   }
 
   start(e) {
-    if(e.keyCode === 32 || e.keyCode === 13){
-      if(e.keyCode === 32){console.log("space")}
+    if(e.keyCode === 13){
       if(e.keyCode === 13){console.log("enter")}
-
+      
       this.page.removeEventListener('keydown', this.start);
+      this.wordInput.addEventListener('input', this.match);
       this.wordInput.hidden = false;
       this.wordInput.focus();
       this.scoreShow.hidden = false;
@@ -89,11 +88,9 @@ class Game {
         this.draw();
       }, 50)
   
-      this.wordInput.addEventListener('input', this.match);
       this.scoreText.hidden = false;
       this.scoreShow.innerHTML = 0;
     }
-
   }
 
 
@@ -124,23 +121,8 @@ class Game {
 
     this.ctx.font = '30px serif';
     this.ctx.fillText("Game Over!", this.canvasWidth / 2 - 70, 250);
-    this.ctx.fillText("Press enter or space to start", this.canvasWidth / 2 - 153, 350);
+    this.ctx.fillText("Press enter to start", this.canvasWidth / 2 - 110, 350);
     this.page.addEventListener('keydown', this.start);
-    
-    // let y = 0
-    // const timer = setInterval(() => {
-    //   if (y < 250) {
-    //     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    //     this.ctx.font = '30px serif';
-    //     this.ctx.fillText("Game Over!", this.canvasWidth / 2 - 80, y);
-    //     y++;
-    //   } else {
-    //     clearInterval(timer);
-    //     this.ctx.fillText("Press enter or space to start", this.canvasWidth / 2 - 153, 350);
-    //     this.page.addEventListener('keydown', this.start);
-    //   }
-    // }, 10)
-
   }
   
 }
