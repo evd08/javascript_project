@@ -2,23 +2,27 @@
 const Dictionary = require("./dictionary.js");
 const _ = require('lodash');
 const StartScreen = require("./startScreen");
+const BackgroundImg = require("./background_img");
 
 class Game {
-  constructor(ctx, page, currentWord, wordInput, scoreText, scoreShow, canvasWidth, canvasHeight) {
+  constructor(ctx, page, currentWord, wordInput, scoreText, scoreShow, livesText, lives, canvasWidth, canvasHeight) {
     this.ctx = ctx;
     this.page = page;
     this.currentWord = currentWord;
     this.wordInput = wordInput;
     this.scoreText = scoreText;
     this.scoreShow = scoreShow;
+    this.livesText = livesText;
+    this.lives = lives;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.startScreen = new StartScreen(ctx, page, canvasWidth, canvasHeight, this);
+    this.backgroundImg = new BackgroundImg(ctx);
 
     this.index = 0;
     this.newWord = "";
     this.wordsPosArr = [];
-    this.lives = 5;
+    this.numLives = 5;
     this.score = 0;
     this.startInterval;
     this.drawInterval;
@@ -54,10 +58,11 @@ class Game {
         this.ctx.fillText(el.word, el.xAxis, el.yAxis)
         el.yAxis++
       } else if (el.yAxis === 640) {
-        this.lives--;
+        this.numLives--;
         el.yAxis = 5000;
-        console.log(this.lives)
-        if (this.lives === 0){
+        console.log(this.numLives)
+        this.lives.innerHTML = this.numLives;
+        if (this.numLives === 0){
           this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
           this.gameOver();
         }
@@ -88,8 +93,11 @@ class Game {
         this.draw();
       }, 50)
   
+      this.livesText.hidden = false;
+      this.lives.innerHTML = this.numLives;
       this.scoreText.hidden = false;
       this.scoreShow.innerHTML = 0;
+
     }
   }
 
@@ -101,6 +109,7 @@ class Game {
     if (wordsArr.includes(word)){
       this.index = wordsArr.indexOf(word);
       this.wordsPosArr.splice(this.index, 1);
+      this.backgroundImg.draw();
       
       this.wordInput.value = '';
       this.score++;
@@ -111,11 +120,13 @@ class Game {
   gameOver() {
     this.scoreShow.hidden = true;
     this.scoreText.hidden = true;
+    this.livesText.hidden = true;
+    this.lives.hidden = true;
     this.wordInput.hidden = true;
     clearInterval(this.startInterval);
     clearInterval(this.drawInterval);
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-    this.lives = 5;
+    this.numLives = 5;
     this.wordsPosArr = [];
     this.score = 0;
 

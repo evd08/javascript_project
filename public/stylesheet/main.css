@@ -24,6 +24,12 @@
   bottom: 30px;
 }
 
+.score-lives {
+
+  display: flex;
+  justify-content: space-evenly;
+}
+
 #word-input {
   font-family: "Roboto Slab";
   background-color: rgba(0, 0, 0, 0.1);

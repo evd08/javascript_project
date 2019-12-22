@@ -15,12 +15,15 @@
 <body id="page">
   
   <div class="canvas">
-    <canvas id="game-canvas" width="1040px" height="640px"></canvas>
+    <canvas id="game-canvas" width="1040px" height="640px">
+    </canvas>
   
     <div class="textbox">
       <input type="text" id="word-input" placeholder="type the word here" hidden>
-      <h3 id="score-text" hidden>Score: <p id="score"></p> 
-      </h3>
+      <div class="score-lives">
+        <h3 id="score-text" hidden>Score: <p id="score"></p></h3>
+        <h3 id="lives-text" hidden>Lives: <p id="lives"></p></h3>
+      </div>
     </div>
 
   </div>
