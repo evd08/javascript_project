@@ -2,7 +2,20 @@
 const Dictionary = require("./dictionary.js");
 const _ = require('lodash');
 const StartScreen = require("./startScreen");
-const BackgroundImg = require("./background_img");
+// const BackgroundImg = require("./background_img");
+
+const IMAGES = [
+              "./public/images/nature1.jpg", 
+              "./public/images/nature2.jpg", 
+              "./public/images/nature3.jpg",
+              "./public/images/nature4.jpg", 
+              "./public/images/nature5.jpg",
+              "./public/images/nature6.jpg",
+              "./public/images/nature7.jpg",
+              "./public/images/nature8.jpg",
+              "./public/images/nature9.jpg",
+              "./public/images/nature10.jpg"
+            ];
 
 class Game {
   constructor(ctx, page, currentWord, wordInput, scoreText, scoreShow, livesText, lives, canvasWidth, canvasHeight) {
@@ -17,20 +30,24 @@ class Game {
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
     this.startScreen = new StartScreen(ctx, page, canvasWidth, canvasHeight, this);
-    this.backgroundImg = new BackgroundImg(ctx);
 
+    this.bgHeight = 1100;
     this.index = 0;
+    this.imgIdx = 0;
+    this.speed = 2000;
     this.newWord = "";
     this.wordsPosArr = [];
     this.numLives = 5;
     this.score = 0;
     this.startInterval;
     this.drawInterval;
+    this.img = new Image();
+    this.img.src = "./public/images/nature2.jpg";
 
     this.dictionary = new Dictionary();
 
+    
     this.start = this.start.bind(this);
-    // this.match = this.match.bind(this);
   }
 
   addWord() {
@@ -80,22 +97,26 @@ class Game {
       this.wordInput.focus();
       this.scoreShow.hidden = false;
       this.scoreText.hidden = false;
-      this.wordInput.hidden = false;
+      this.livesText.hidden = false;
+      this.livesText.hidden = false;
+      
 
       this.startInterval = setInterval(() => {
         this.addWord();
-      }, 5000)
+        console.log(this.speed);
+      }, this.speed)
   
   
       this.drawInterval = setInterval(() => {
+        // debugger
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
+        // this.backgroundImg.draw();
+        this.ctx.drawImage(this.img, 0, this.bgHeight, 1920, 1080, 0, 0, 1040, 640);
         this.match();
         this.draw();
       }, 50)
   
-      this.livesText.hidden = false;
-      this.lives.innerHTML = this.numLives;
-      this.scoreText.hidden = false;
+      this.lives.innerHTML = 5;
       this.scoreShow.innerHTML = 0;
 
     }
@@ -109,7 +130,12 @@ class Game {
     if (wordsArr.includes(word)){
       this.index = wordsArr.indexOf(word);
       this.wordsPosArr.splice(this.index, 1);
-      this.backgroundImg.draw();
+
+      if (this.bgHeight - 20 < 0) {
+        this.randomImg();
+      } else {
+        this.bgHeight = this.bgHeight - 100;
+      }
       
       this.wordInput.value = '';
       this.score++;
@@ -129,11 +155,29 @@ class Game {
     this.numLives = 5;
     this.wordsPosArr = [];
     this.score = 0;
+    this.randomImg();
+    this.speed = 2000;
 
     this.ctx.font = '30px serif';
     this.ctx.fillText("Game Over!", this.canvasWidth / 2 - 70, 250);
     this.ctx.fillText("Press enter to start", this.canvasWidth / 2 - 110, 350);
     this.page.addEventListener('keydown', this.start);
+  }
+
+  randomImg() {
+    if (this.speed > 500) {
+      this.speed = this.speed - 500;
+    } else if (this.speed <= 500 && this.speed  > 100) {
+      this.speed = this.speed - 100;
+    } else if (this.speed <=100 && this.speed > 10) {
+      this.speed = this.speed - 10;
+    } else if (this.speed <= 10 && this.speed > 1) {
+      this.speed = this.speed - 1;
+    }
+
+    this.bgHeight = 1100;
+    this.imgIdx = Math.floor(Math.random() * 4);
+    this.img.src = IMAGES[this.imgIdx];
   }
   
 }
