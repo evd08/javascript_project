@@ -64,21 +64,21 @@ class Game {
       let el = this.wordsPosArr[i];
       if (el.yAxis < 640){ 
         this.ctx.beginPath();
-        this.ctx.rect(el.xAxis, el.yAxis - 15, el.word.length*11, 20, 'grey');
-        this.ctx.fillStyle = "#47a4cf";
-        this.ctx.fill();
+          this.ctx.rect(el.xAxis, el.yAxis - 15, el.word.length*11, 20, 'grey');
+          this.ctx.fillStyle = "#47a4cf";
+          this.ctx.fill();
         this.ctx.closePath();
         
-
         this.ctx.font = '15px serif';
         this.ctx.fillStyle = "#000";
         this.ctx.fillText(el.word, el.xAxis, el.yAxis)
         el.yAxis++
       } else if (el.yAxis === 640) {
         this.numLives--;
-        el.yAxis = 5000;
+        // debugger
         console.log(this.numLives)
         this.lives.innerHTML = this.numLives;
+        el.yAxis = 5000;
         if (this.numLives === 0){
           this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
           this.gameOver();
@@ -97,7 +97,7 @@ class Game {
       this.wordInput.focus();
       this.scoreShow.hidden = false;
       this.scoreText.hidden = false;
-      this.livesText.hidden = false;
+      this.lives.hidden = false;
       this.livesText.hidden = false;
       
 
@@ -108,15 +108,13 @@ class Game {
   
   
       this.drawInterval = setInterval(() => {
-        // debugger
         this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight)
-        // this.backgroundImg.draw();
         this.ctx.drawImage(this.img, 0, this.bgHeight, 1920, 1080, 0, 0, 1040, 640);
         this.match();
         this.draw();
       }, 50)
   
-      this.lives.innerHTML = 5;
+      this.lives.innerHTML = this.numLives;
       this.scoreShow.innerHTML = 0;
 
     }
@@ -124,7 +122,7 @@ class Game {
 
 
   match() {
-    let word = this.wordInput.value
+    let word = this.wordInput.value.toUpperCase();
     let wordsArr = _.map(this.wordsPosArr, 'word')
     
     if (wordsArr.includes(word)){
