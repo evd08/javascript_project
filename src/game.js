@@ -35,6 +35,7 @@ class Game {
     this.index = 0;
     this.imgIdx = 0;
     this.speed = 2000;
+    this.velocity = 50;
     this.newWord = "";
     this.wordsPosArr = [];
     this.numLives = 5;
@@ -104,6 +105,7 @@ class Game {
       this.startInterval = setInterval(() => {
         this.addWord();
         console.log(this.speed);
+        console.log(this.velocity);
       }, this.speed)
   
   
@@ -112,7 +114,7 @@ class Game {
         this.ctx.drawImage(this.img, 0, this.bgHeight, 1920, 1080, 0, 0, 1040, 640);
         this.match();
         this.draw();
-      }, 50)
+      }, this.velocity)
   
       this.lives.innerHTML = this.numLives;
       this.scoreShow.innerHTML = 0;
@@ -155,6 +157,7 @@ class Game {
     this.score = 0;
     this.randomImg();
     this.speed = 2000;
+    this.speed = 50;
 
     this.ctx.font = '30px serif';
     this.ctx.fillText("Game Over!", this.canvasWidth / 2 - 70, 250);
@@ -165,8 +168,10 @@ class Game {
   randomImg() {
     if (this.speed > 500) {
       this.speed = this.speed - 500;
+      this.velocity = this.velocity - 5;
     } else if (this.speed <= 500 && this.speed  > 100) {
       this.speed = this.speed - 100;
+      this.velocity = this.velocity - 5;
     } else if (this.speed <=100 && this.speed > 10) {
       this.speed = this.speed - 10;
     } else if (this.speed <= 10 && this.speed > 1) {
