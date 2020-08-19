@@ -52,18 +52,18 @@
   /* bottom: 10rem; */
 }
 
-section {
+footer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-section * {
+footer * {
   display: flex;
   align-items: center;
   margin-right: 10px;
 }
 
-section img {
+footer img {
   height: 30px;
 }
