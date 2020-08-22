@@ -53,15 +53,21 @@
 }
 
 footer {
+  position: absolute;
   display: flex;
   align-items: center;
-  justify-content: center;
+  bottom: 3%;
+  left: 1%
 }
 
 footer * {
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  margin-right: 5px;
+}
+
+footer p {
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 footer img {
